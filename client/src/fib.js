@@ -58,7 +58,7 @@ export class Fib extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <label>Enter Your Index:</label>
           <input
             value={this.state.index}
