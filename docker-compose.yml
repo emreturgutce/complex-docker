@@ -14,10 +14,15 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - 80:80
+    depends_on:
+      - api
+      - client
   api:
     build:
       context: ./server
       dockerfile: Dockerfile.dev
+    depends_on:
+      - postgres
     volumes:
       - /app/node_modules # ignore node_modules
       - ./server:/app
