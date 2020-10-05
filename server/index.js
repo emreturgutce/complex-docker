@@ -1,4 +1,3 @@
-const keys = require('./keys')
 const express = require('express')
 const cors = require('cors')
 const { Pool } = require('pg')
@@ -10,11 +9,11 @@ app.use(cors())
 app.use(express.json())
 
 const pgClient = new Pool({
-  user: keys.pgUser,
-  host: keys.pgHost,
-  database: keys.pgDatabase,
-  password: keys.pgPassword,
-  port: keys.pgPort,
+  user: process.env.PG_USER,
+  host: process.env.PG_HOST,
+  database: process.env.PG_DB,
+  password: process.env.PG_PASSWORD,
+  port: process.env.PG_PORT,
 })
 
 pgClient.on('connect', () => {
@@ -24,8 +23,8 @@ pgClient.on('connect', () => {
 })
 
 const redisClient = redis.createClient({
-  host: keys.redisHost,
-  port: keys.redisPort,
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
   retry_strategy: () => 1000,
 })
 
