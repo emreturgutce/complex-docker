@@ -4,9 +4,13 @@ services:
     image: postgres
     restart: always
     environment:
-      - POSTGRES_PASSWORD=postgres_password
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_PORT=5432
   redis:
     image: redis
+    restart: always
   nginx:
     restart: always
     build:
@@ -32,7 +36,7 @@ services:
       - PG_USER=postgres
       - PG_HOST=postgres
       - PG_DB=postgres
-      - PG_PASSWORD=postgres_password
+      - PG_PASSWORD=postgres
       - PG_PORT=5432
   client:
     stdin_open: true 
