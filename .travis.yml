@@ -21,4 +21,17 @@ after_success:
   - docker push emreturgutce/complex-nginx
   - docker push emreturgutce/complex-server
   - docker push emreturgutce/complex-worker
+
+deploy:
+  edge: true
+  provider: elasticbeanstalk
+  region: eu-central-1
+  app: complex-docker
+  env: ComplexDocker-env
+  bucket_name: elasticbeanstalk-eu-central-1-638908802686
+  bucket_path: docker-complex
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
   
