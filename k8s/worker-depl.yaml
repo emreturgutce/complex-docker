@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: worker
+  template:
+    metadata:
+      labels:
+        component: worker
+    spec:
+      containers:
+      - name: worker
+        image: stephengrider/multi-worker
+# There is no request that goes into worker pod therefore we do not need to create a service for it
