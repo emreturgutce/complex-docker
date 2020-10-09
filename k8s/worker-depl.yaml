@@ -15,4 +15,9 @@ spec:
       containers:
       - name: worker
         image: stephengrider/multi-worker
+        env:
+          - name: REDIS_HOST
+            value: redis-cluster-ip-srv
+          - name: REDIS_PORT
+            value: "6379"
 # There is no request that goes into worker pod therefore we do not need to create a service for it
