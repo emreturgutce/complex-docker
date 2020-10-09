@@ -1,37 +1,36 @@
 sudo: required
 language: generic
+
 services:
   - docker
 
 before_install:
-  - docker build -t emreturgutce/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t stephengrider/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true emreturgutce/react-test npm test
+  - docker run stephengrider/react-test npm test -- --coverage
 
 after_success:
-  - docker build -t emreturgutce/complex-client ./client
-  - docker build -t emreturgutce/complex-nginx ./nginx
-  - docker build -t emreturgutce/complex-server ./server
-  - docker build -t emreturgutce/complex-worker ./worker
-  # Login to the docker cli
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin 
-  # Push those images to docker hub
-  - docker push emreturgutce/complex-client
-  - docker push emreturgutce/complex-nginx
-  - docker push emreturgutce/complex-server
-  - docker push emreturgutce/complex-worker
+  - docker build -t stephengrider/multi-client ./client
+  - docker build -t stephengrider/multi-nginx ./nginx
+  - docker build -t stephengrider/multi-server ./server
+  - docker build -t stephengrider/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push stephengrider/multi-client
+  - docker push stephengrider/multi-nginx
+  - docker push stephengrider/multi-server
+  - docker push stephengrider/multi-worker
 
 deploy:
-  edge: true
   provider: elasticbeanstalk
-  region: eu-central-1
-  app: complex-docker
-  env: ComplexDocker-env
-  bucket_name: elasticbeanstalk-eu-central-1-638908802686
-  bucket_path: docker-complex
+  region: us-west-1
+  app: multi-docker
+  env: MultiDocker-env
+  bucket_name: elasticbeanstalk-us-west-1-306476627547
+  bucket_path: docker-multi
   on:
     branch: master
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
-  
