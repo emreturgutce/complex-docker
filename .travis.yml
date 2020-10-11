@@ -10,3 +10,14 @@ before_install:
 # - gcloud config set project <PROJECT_ID>
 # - gcloud config set compute/zone <COMPUTE_ZONE>
 # - gcloud container clusters get-credentials <CLUSTER_NAME>
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker build -t emreturgutce/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true emreturgutce/react-test npm test
+
+deploy:
+  provider: script
+  script: bash ./deploy.sh
+  on:
+    branch: master
